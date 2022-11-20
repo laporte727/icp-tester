@@ -165,6 +165,12 @@ actor class Dex() = this {
     return (metadata.fee);
   };
 
+  // オーダーのIDを更新して返す
+  private func nextId() : Nat32 {
+    last_id += 1;
+    return (last_id);
+  };
+
   // ===== DEX STATE FUNCTIONS =====
   // 引数で渡されたトークンPrincipalの残高を取得する
   public shared query func getBalance(user : Principal, token : T.Token) : async Nat {
