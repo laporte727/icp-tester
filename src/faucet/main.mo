@@ -10,6 +10,9 @@ shared (msg) actor class Faucet() = this {
 
   private let FAUCET_AMOUNT : Nat = 1_000;
 
+  // アップグレード時にトークンを配布したユーザーを保存しておく`stable`変数
+  private stable var faucetBookEntries : [var (Principal, [Token])] = [var];
+
   // ユーザーとトークンをマッピング
   // トークンは、複数を想定して配列にする
   private var faucet_book = HashMap.HashMap<Principal, [Token]>(
@@ -79,5 +82,25 @@ shared (msg) actor class Faucet() = this {
         };
       };
     };
+  };
+  // ===== UPGRADE =====
+  system func preupgrade() {
+    // `faucet_book`に保存されているデータのサイズでArrayの初期化をする
+    faucetBookEntries := Array.init(faucet_book.size(), (Principal.fromText("aaaaa-aa"), []));
+    var i = 0;
+    for ((x, y) in faucet_book.entries()) {
+      faucetBookEntries[i] := (x, y);
+      i += 1;
+    };
+  };
+
+  system func postupgrade() {
+    // Arrayに保存したデータを`HashMap`に再構築する
+    for ((key : Principal, value : [Token]) in faucetBookEntries.vals()) {
+      faucet_book.put(key, value);
+    };
+
+    // `Stable`に使用したメモリをクリアする
+    faucetBookEntries := [var];
   };
 }
