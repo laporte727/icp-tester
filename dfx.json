@@ -1,8 +1,20 @@
 {
   "canisters": {
     "icp_basic_dex_backend": {
-      "main": "src/icp_basic_dex_backend/main.mo",
+      "type": "motoko",
+      "main": "src/icp_basic_dex_backend/main.mo"
+    },
+    "faucet": {
+      "main": "src/faucet/main.mo",
       "type": "motoko"
+    },
+    "GoldDIP20": {
+      "type": "motoko",
+      "main": "src/DIP20/motoko/src/token.mo"
+    },
+    "SilverDIP20": {
+      "type": "motoko",
+      "main": "src/DIP20/motoko/src/token.mo"
     },
     "icp_basic_dex_frontend": {
       "dependencies": [
@@ -22,6 +34,13 @@
     "build": {
       "args": "",
       "packtool": ""
+    }
+  },
+  "dfx": "0.12.1",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
     }
   },
   "version": 1
