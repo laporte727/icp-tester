@@ -63,7 +63,7 @@ export const Header = (props) => {
 
   return (
     <ul>
-      <li>SIMPLE DEX</li>
+      <li>&#127760; Hello New World &#127760;</li>
       <li className='btn-login'>
         <button
           onClick={handleLogin}>
